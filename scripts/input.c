@@ -17,7 +17,7 @@ Graph* readNodes(FILE *fp){
     return head;
 }
 
-void readEdges(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
+void readEdgesBruto(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
     int i, sharing;
     int source, destination;
     fscanf(fp, "%d", &sharing);

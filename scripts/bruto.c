@@ -18,7 +18,7 @@ void bruto(int argc, char *argv[]){
     }
     float maxBenefit = 0;
     graph = readNodes(fp);
-    readEdges(graph, fp, fpwrite, &maxBenefit);
+    readEdgesBruto(graph, fp, fpwrite, &maxBenefit);
     fclose(fp);
     fclose(fpwrite);
 }
