@@ -62,9 +62,9 @@ void combinationUtil(int arr[], int data[], int start, int end, int index, int r
         }
         resetAvaiableSeats(graph);
         for (int j=0; j<r; j++) {
-            if(checkPassengerAvailability(graph, combination[j][0]) == 1 && checkDriverAvailability(graph, combination[j][1]) == 1 && checkIsDriving(graph, combination[j][0]) == 0 && checkAvailability(graph, combination[j][0]) == 1 && checkAvailability(graph, combination[j][1]) == 1 && checkSeats(graph, combination[j][0], combination[j][1]) == 1) {
-                setTravel(graph, combination[j][0], combination[j][1]);
-                benefit += calculateBenefit(graph, combination[j][0], combination[j][1]);
+            if(checkPassengerAvailability(graph, combination[data[j]][0]) == 1 && checkDriverAvailability(graph, combination[data[j]][1]) == 1 && checkIsDriving(graph, combination[data[j]][0]) == 0 && checkAvailability(graph, combination[data[j]][0]) == 1 && checkAvailability(graph, combination[data[j]][1]) == 1 && checkSeats(graph, combination[data[j]][0], combination[data[j]][1]) == 1) {
+                setTravel(graph, combination[data[j]][0], combination[data[j]][1]);
+                benefit += calculateBenefit(graph, combination[data[j]][0]);
             }
         }
         if(benefit > *maxBenefit) {
@@ -73,15 +73,15 @@ void combinationUtil(int arr[], int data[], int start, int end, int index, int r
             *maxBenefit = benefit;
             resetAvaiableSeats(graph);
             for (int j=0; j<r; j++) {
-                if(checkPassengerAvailability(graph, combination[j][0]) == 1 && checkDriverAvailability(graph, combination[j][1]) == 1 && checkIsDriving(graph, combination[j][0]) == 0  && checkAvailability(graph, combination[j][0]) == 1 && checkAvailability(graph, combination[j][1]) == 1 && checkSeats(graph, combination[j][0], combination[j][1]) == 1) {
-                    setTravel(graph, combination[j][0], combination[j][1]);
-                    benefit += calculateBenefit(graph, combination[j][0], combination[j][1]);
-                    finalResults[l][0] = combination[j][0];
-                    finalResults[l][1] = combination[j][1];
+                if(checkPassengerAvailability(graph, combination[data[j]][0]) == 1 && checkDriverAvailability(graph, combination[data[j]][1]) == 1 && checkIsDriving(graph, combination[data[j]][0]) == 0  && checkAvailability(graph, combination[data[j]][0]) == 1 && checkAvailability(graph, combination[data[j]][1]) == 1 && checkSeats(graph, combination[data[j]][0], combination[data[j]][1]) == 1) {
+                    setTravel(graph, combination[data[j]][0], combination[data[j]][1]);
+                    benefit += calculateBenefit(graph, combination[data[j]][0]);
+                    finalResults[l][0] = combination[data[j]][0];
+                    finalResults[l][1] = combination[data[j]][1];
                     l++;
-                    if(results[combination[j][1]] == -1) {
+                    if(results[combination[data[j]][1]] == -1) {
                         totalResults++;
-                        results[combination[j][1]] = combination[j][1];
+                        results[combination[data[j]][1]] = combination[data[j]][1];
                     }
                 }
             }

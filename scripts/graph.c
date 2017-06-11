@@ -69,20 +69,15 @@ void printGraph(Graph *graph) {
     }
 }
 
-float calculateBenefit(Graph *graph, int source, int destination) {
+float calculateBenefit(Graph *graph, int source) {
     Graph *aux = graph;
-    Graph *nodeSource = NULL, *nodeDestination = NULL;
     while(aux != NULL) {
         if(source == aux->TravelId){
-            nodeSource = aux;
-        }
-        if(destination == aux->TravelId){
-            nodeDestination = aux;
+            return aux->Benefit;
         }
         aux = aux->Next;
     }
-
-    return nodeSource->Benefit;
+    return 0;
 }
 
 void setTravel(Graph *graph, int source, int destination) {
