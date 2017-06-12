@@ -42,6 +42,60 @@ void readEdgesBruto(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
     }
 }
 
+void readEdgesDynamic(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
+    int i, sharing;
+    int source, destination;
+    fscanf(fp, "%d", &sharing);
+    int combination[sharing][2];
+    int arr[sharing];
+    for (i=0; i<sharing; i++) {
+        arr[i] = i;
+        fscanf(fp, "%d %d", &source, &destination);
+        addEdge(graph, source, destination);
+        combination[i][0] = source;
+        combination[i][1] = destination;
+    }
+
+    int r;
+    int n = sizeof(arr)/sizeof(arr[0]);
+    for(r=1;r<=sharing; r++) {
+        printCombinationDynamic(arr, n, r, graph, combination, maxBenefit, sharing, fpwrite);
+    }
+    if(*maxBenefit <= 0) {
+        rewind(fpwrite);
+        fprintf(fpwrite, "0 0.0\n");
+    }
+}
+
+void printCombinationDynamic(int arr[], int n, int r, Graph *graph, int combination[][2], float *maxBenefit, int total, FILE *fpwrite) {
+    // A temporary array to store all combination one by one
+    int data[r];
+ 
+    // Print all combination using temprary array 'data[]'
+    combinationUtilDynamic(arr, data, 0, n-1, 0, r, graph, combination, maxBenefit, total, fpwrite);
+}
+
+void combinationUtilDynamic(int arr[], int data[], int start, int end, int index, int r, Graph *graph, int combination[][2], float *maxBenefit, int total, FILE *fpwrite) {
+    // Current combination is ready to be printed, print it
+    if (index == r) {
+        for (int j=0; j<r; j++) {
+            printf("%d ",data[j]);
+        }
+        printf("\n");
+        return;
+    }
+ 
+    // replace index with all possible elements. The condition
+    // "end-i+1 >= r-index" makes sure that including one element
+    // at index will make a combination with remaining elements
+    // at remaining positions
+    for (int i=start; i<=end && end-i+1 >= r-index; i++)
+    {
+        data[index] = arr[i];
+        combinationUtilDynamic(arr, data, i+1, end, index+1, r, graph, combination, maxBenefit, total, fpwrite);
+    }
+}
+
 void printCombinationAux(int arr[], int n, int r, Graph *graph, int combination[][2], float *maxBenefit, int total, FILE *fpwrite) {
     // A temporary array to store all combination one by one
     int data[r];
