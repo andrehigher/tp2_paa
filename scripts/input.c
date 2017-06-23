@@ -42,6 +42,64 @@ void readEdgesBruto(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
     }
 }
 
+void readEdgesGuloso(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
+    int i, j, sharing, aux;
+    int source, destination;
+    fscanf(fp, "%d", &sharing);
+    int combination[sharing][2];
+    int arr[sharing];
+    float passenger[sharing][2], auxBenefit, auxPassenger;
+    for (i=0; i<sharing; i++) {
+        passenger[i][0] = -1;
+        passenger[i][1] = -1;
+    }
+    for (i=0; i<sharing; i++) {
+        arr[i] = i;
+        fscanf(fp, "%d %d", &source, &destination);
+        addEdge(graph, source, destination);
+        combination[i][0] = source;
+        combination[i][1] = destination;
+        aux = 0;
+        for(j=0; j<i; j++) {
+            if(passenger[j][0] == (float)source) {
+                aux = 1;
+            }
+        }
+        if(aux == 0) {
+            passenger[i][0] = source;
+            passenger[i][1] = calculateBenefit(graph, passenger[i][0]);
+        }
+    }
+    for (i=0; i<sharing; i++) {
+        if(passenger[i][0] != -1) {
+            for(j=i+1; j<sharing; j++) {
+                if(passenger[j][0] != -1 && passenger[j][1] > passenger[i][1]) {
+                    auxPassenger = passenger[i][0];
+                    auxBenefit = passenger[i][1];
+                    passenger[i][0] = passenger[j][0];
+                    passenger[i][1] = passenger[j][1];
+                    passenger[j][0] = auxPassenger;
+                    passenger[j][1] = auxBenefit;
+                }
+            }
+        }
+    }
+
+    for (i=0; i<sharing; i++) {
+        if(passenger[i][0] != -1) {
+            printf("Passenger: %0.f %1.f\n", passenger[i][0], passenger[i][1]);
+
+            printf("Travels:\n");
+            for (j=0; j<sharing; j++) {
+                if((int)passenger[i][0] == combination[j][0]) {
+                    printf("%d %d\n", combination[j][0], combination[j][1]);
+                }
+            }
+            printf("\n");
+        }
+    }
+}
+
 void readEdgesDynamic(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
     int i, sharing;
     int source, destination;

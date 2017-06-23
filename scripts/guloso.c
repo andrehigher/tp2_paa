@@ -18,7 +18,7 @@ void guloso(int argc, char *argv[]){
     }
     float maxBenefit = 0;
     graph = readNodes(fp);
-    readEdgesBruto(graph, fp, fpwrite, &maxBenefit);
+    readEdgesGuloso(graph, fp, fpwrite, &maxBenefit);
     fclose(fp);
     fclose(fpwrite);
 }
