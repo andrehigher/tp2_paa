@@ -2,7 +2,9 @@
 #define BASE__H_
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "graph.h"
+#include "list.h"
 
 #define FALSE 0
 #define TRUE 1

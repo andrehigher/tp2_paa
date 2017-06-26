@@ -85,19 +85,40 @@ void readEdgesGuloso(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
         }
     }
 
-    for (i=0; i<sharing; i++) {
-        if(passenger[i][0] != -1) {
-            printf("Passenger: %0.f %1.f\n", passenger[i][0], passenger[i][1]);
-
-            printf("Travels:\n");
-            for (j=0; j<sharing; j++) {
-                if((int)passenger[i][0] == combination[j][0]) {
-                    printf("%d %d\n", combination[j][0], combination[j][1]);
-                }
+    List *list = NULL;
+    for (j=0; j<sharing; j++) {
+        if((int)passenger[0][0] == combination[j][0]) {
+            if(list == NULL) {
+                list = createList(combination[j][0], combination[j][1], passenger[0][1]);
+            } else {
+                addElement(list, combination[j][0], combination[j][1], passenger[0][1]);
             }
-            printf("\n");
         }
     }
+    int auxCount, auxCount2, auxCount3;
+
+    for (i=1; i<sharing; i++) {
+        if(passenger[i][0] != -1) {
+            auxCount = 0;
+            for (j=0; j<sharing; j++) {
+                if((int)passenger[i][0] == combination[j][0]) {
+                    auxCount++;
+                }
+            }
+            list = copyList(list, auxCount);
+            auxCount2 = 0;
+            auxCount3 = returnTravels(list);
+            for (j=0; j<sharing; j++) {
+                if((int)passenger[i][0] == combination[j][0]) {
+                    addTravel(list, combination[j][0], combination[j][1], passenger[i][1], auxCount, auxCount2, auxCount3);
+                    auxCount2 += auxCount3/auxCount;
+                }
+            }
+        }
+    }
+
+    // checagem das restrições
+    checkRestrictions(list, graph, sharing, fpwrite);
 }
 
 void readEdgesDynamic(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){

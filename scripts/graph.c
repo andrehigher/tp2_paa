@@ -28,6 +28,16 @@ void addNode(Graph *graph, int travelId, int passenger, int driver, int amount, 
 	aux->Next = newNode;
 }
 
+int returnAmountNodes(Graph *graph) {
+    int count = 1;
+    Graph *aux = graph;
+    while ( aux->Next != NULL ) {
+        count++;
+		aux = aux->Next;
+	}
+    return count;
+}
+
 ListAdj* createEdge(int destination) {
     ListAdj *list = (ListAdj *) malloc(sizeof(ListAdj));
     list->TravelId = destination;

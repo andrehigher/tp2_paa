@@ -23,6 +23,7 @@ typedef struct _Graph {
 Graph* createGraph(int travelId, int passenger, int driver, int amount, int seats, float benefit);
 Graph* createNode(int travelId, int passenger, int driver, int amount, int seats, float benefit);
 void addNode(Graph *graph, int travelId, int passenger, int driver, int amount, int seats, float benefit);
+int returnAmountNodes(Graph *graph);
 
 ListAdj* createEdge(int destination);
 void addEdge(Graph *node, int source, int destination);
