@@ -7,6 +7,6 @@ int main(int argc, char *argv[]) {
     guloso(argc, argv);
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    // printf("Guloso took %f seconds to execute \n", cpu_time_used);
+    printf("Guloso took %f seconds to execute \n", cpu_time_used);
     return 0;
 }

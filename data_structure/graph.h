@@ -16,6 +16,7 @@ typedef struct _Graph {
     int RemainingSeats;
     int Available;
     int isDriving;
+    float benefitIncoming;
     ListAdj *ListAdj;
     struct _Graph *Next;
 }Graph;
@@ -39,5 +40,7 @@ int checkAvailability(Graph *graph, int source);
 int checkSeats(Graph *graph, int source, int destination);
 int checkIsDriving(Graph *graph, int source);
 void printNode(Graph *graph, int source);
+void updateIncomingBenefit(Graph *graph, int source, int destination);
+Graph* returnGraphNode(Graph *graph, float limitBenefit);
 
 #endif /*GRAPH_H_*/

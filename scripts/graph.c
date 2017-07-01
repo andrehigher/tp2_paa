@@ -14,6 +14,7 @@ Graph* createNode(int travelId, int passenger, int driver, int amount, int seats
     graph->RemainingSeats = seats - amount;
     graph->Available = 1;
     graph->isDriving = 0;
+    graph->benefitIncoming = 0;
     graph->ListAdj = NULL;
     graph->Next = NULL;
     return graph;
@@ -51,10 +52,46 @@ void addEdge(Graph *graph, int source, int destination) {
         aux = aux->Next;
     }
     if(aux == NULL || aux->TravelId != source) {
-        printf("Impossible to add an edge from %d to %d\n", source, destination);
         return;
     }
     insertEdge(aux, destination);
+    updateIncomingBenefit(graph, source, destination);
+}
+
+void updateIncomingBenefit(Graph *graph, int source, int destination) {
+    Graph *aux = graph;
+    while(aux != NULL && aux->TravelId != destination) {
+        aux = aux->Next;
+    }
+    if(aux == NULL || aux->TravelId != destination) {
+        return;
+    }
+    aux->benefitIncoming += calculateBenefit(graph, source);
+}
+
+Graph* returnGraphNode(Graph *graph, float limitBenefit) {
+    Graph *aux = graph;
+    float maxBenefitFound = 0;
+    int source = -1;
+    while(aux != NULL) {
+        if(aux->benefitIncoming > maxBenefitFound && aux->benefitIncoming < limitBenefit) {
+            maxBenefitFound = aux->benefitIncoming;
+            source = aux->TravelId;
+        }
+        aux = aux->Next;
+    }
+    if(source == -1) {
+        return NULL;
+    } else {
+        aux = graph;
+        while(aux != NULL) {
+            if(aux->TravelId == source) {
+                return aux;
+            }
+            aux = aux->Next;
+        }
+    }
+    return NULL;
 }
 
 void insertEdge(Graph *node, int destination){
@@ -67,7 +104,7 @@ void printGraph(Graph *graph) {
     Graph *aux = graph;
     ListAdj *listAux;
     while(aux != NULL) {
-        printf("%d %d %d %d %d %f %d\n", aux->TravelId, aux->Passenger, aux->Driver, aux->Amount, aux->Seats, aux->Benefit, aux->RemainingSeats);
+        printf("%d %d %d %d %d %f %d %.1f\n", aux->TravelId, aux->Passenger, aux->Driver, aux->Amount, aux->Seats, aux->Benefit, aux->RemainingSeats, aux->benefitIncoming);
         listAux = aux->ListAdj;
         printf("Edges:");
         while(listAux != NULL) {
