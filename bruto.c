@@ -7,6 +7,6 @@ int main(int argc, char *argv[]) {
     bruto(argc, argv);
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("Bruto took %f seconds to execute \n", cpu_time_used);
+    // printf("Bruto took %f seconds to execute \n", cpu_time_used);
     return 0;
 }
