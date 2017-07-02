@@ -197,13 +197,10 @@ void readEdgesDynamic(Graph *graph, FILE *fp, FILE *fpwrite, float *maxBenefit){
     }
 
     List *list = NULL;
+    list = createList(0, 0, 0);
     for (j=0; j<sharing; j++) {
         if((int)passenger[0][0] == combination[j][0]) {
-            if(list == NULL) {
-                list = createList(combination[j][0], combination[j][1], passenger[0][1]);
-            } else {
-                addElement(list, combination[j][0], combination[j][1], passenger[0][1]);
-            }
+            addElement(list, combination[j][0], combination[j][1], passenger[0][1]);
         }
     }
     int auxCount, auxCount2, auxCount3;
